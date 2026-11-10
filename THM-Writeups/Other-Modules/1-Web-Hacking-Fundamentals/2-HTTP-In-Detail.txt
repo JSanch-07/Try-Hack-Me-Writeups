@@ -1,0 +1,121 @@
+What is HTTP(S):
+	. What is HTTP:
+		. HTTP is what is used whenever you view a website
+		. Serves as a set of rules for communicating with web servers for transmitting webpage data
+			. Example Webpage Data: HTML, image, video, etc.
+		. HTTP was developed by Tim Berners-Lee in 1989
+	. What is HTTPS:
+		. HTTPS is the secure version of HTTP
+			. "S" for secure
+		. How is it more secure?
+			. HTTPS data is encrypted
+				. This stops unwanted eyes from looking at your data while it is being transmitted
+			. When you see a website using HTTPS, you know that the connection itself will be safe and secure
+			. A website using HTTP will be flagged by most browsers and give you a warning
+
+Request and Responses:
+	. When you access a website, your browser sends a request to the given web server
+	. Before you even send the request, you need to tell your browser where it is going and how it is getting there
+	. What is a URL (Uniform Resource Locator):
+		. A URL is an instruction on how to access a resource on the internet
+		. Example: http://user:password@tryhackme.com:80/view-room?id=1#task3
+			. http:// - Scheme
+				. Defines the protocol to use for accessing the resource (HTTP, HTTPS, FTP, etc.)
+			. user:password@ - User
+				. Used for authentication (required by some sites)
+			. tryhackme.com - Domain/Host
+				. The domain name or IP of the web server
+			. :80 - Port
+				. The port that you are going to connect to (80 for HTTP, 443 for HTTPS, etc.)
+			. /view-room - Path
+				. The file name or location of the specific resource you want
+			. ?id=1 - Query String
+				. Extra bits of info that can be sent to the requested path (.../view-room?id=1 -> view the room where it's ID = 1) 
+			. #task3 - Fragment
+				. A reference to a location on the actual requested page
+	. Making a Request:
+		. It's possible to make a request to a web server with just 1 line:
+			. GET / HTTP/1.1
+			. (the request method) / (requested page)/(HTTP version)
+		. We want to send more data for a better experience
+		. We can do this using HTTP Headers:
+			. Headers contain extra information to the web server you're communicating with
+			. Example with headers:
+				. GET / HTTP/1.1 <- using GET method and requesting home page with HTTP version 1.1
+				  Host: tryhackme.com <- we tell the web server we want the website tryhackme.com
+				  User-Agent: Mozilla/5.0 Firefox/87.0 <- we tell the web server we are using Firefox
+				  Referer: https://tryhackme.com/ <- We are telling the web server which page referred us to this one
+				  <- HTTP requests always end with a blank line
+	. Example Response:
+		. HTTP/1.1 200 OK <- 200 = the request has completed successfully
+
+		  Server: nginx/1.15.8 <- tells us the web server's software and version number
+		  Date: Fri, 09 Apr 2021 13:34:03 GMT
+		  Content-Type: text/html <- defines data type
+		  Content-Length: 98 <- tells the browser how much data to expect
+
+
+		  <html>
+		  <head>
+			<title>TryHackMe</title>
+		  </head>
+		  <body>
+			Welcome To TryHackMe.com
+		  </body>
+		  </html>
+
+HTTP Methods
+	. HTTP methods are a way for a client to show their intended action when making an HTTP request
+	. Common HTTP Methods:
+		. GET request - Used for getting info from a webserver (most common)
+		. POST request - Used for submitting data to the web server and potentially creating new records
+		. PUT request - Used for submitting data to a web server to update information
+		. DELETE request - Used for deleting information/records from a web server
+
+HTTP Status Codes
+	. We've previously seen how the first line of a response contains the status code
+	. This code indicates the status of our request
+	. 5 Ranges of HTTP Status Codes:
+		. 100-199 (information response) - Tells the client the first part of their request has been accepted and they should send the rest
+		. 200-299 (success) - Used to tell the client their request was successful
+		. 300-399 (redirection) - Used to redirect the client's request to another resource
+		. 400-499 (client errors) - Used to inform the client that there was an error with their request
+		. 500-599 (server errors) - reserved for errors happening on the server-side
+	. Common HTTP Status Codes:
+		. 200 OK - The request completed successfully
+		. 201 Created - A resource was created (e.g. new blog post)
+		. 301 Moved Permanently - redirects the user's browser or just notifies the browser of the resource location change
+		. 302 Found - Same redirect feature as 301 but rather than a permanent location change, this code indicates that the change is temporary
+		. 400 Bad Request - Something was wrong with the request (e.g. missing info like a parameter)
+		. 401 Not Authorized - You need to be logged-in to access this resource
+		. 403 Forbidden - You don't have permission to view this resource (logged-in or not)
+		. 405 Method Not Allowed - The requested resource doesn't allow the specified method (e.g. 405 for POST but 200 for GET)
+		. 404 Page Not Found - The requested resource doesn't exist
+		. 500 Internal Service Error - The server encountered an error it doesn't know how to handle properly
+		. 503 Service Unavailable - The server cannot handle your request because it is either overloaded or down for maintenance
+
+Headers:
+	. Headers are additional bits of data you can send to the web server when making requests
+	. Although they are not required, you’ll find it difficult to view a website properly without them
+	. Common Request Headers:
+		. Host - Some servers host multiple websites. The host header allows you to tell the server which host you are requesting
+		. User-Agent - This is your browser software and version (some HTML, CSS, and JS elements are only available for specific browsers)
+		. Content-Length - This tells the server how much data to expect from your request (allows the server to verify that it isn't missing any data)
+		. Accept-Encoding - Tells the web server what types of compression methods the browser supports
+		. Cookie - Data sent to the server to help remember the users information
+	. Common Response Headers:
+		. Set-Cookie - Information to store which gets sent back to the web server after each request
+		. Cache-Control - How long to store the content of the response in the browser's cache before it requests it again
+		. Content-Type - Tells the client what type of data is being returned (HTML, CSS, JS, Video, etc.)
+		. Content-Encoding - What compression method was used
+	
+Cookies:
+	. What are cookies?
+		. A small piece of data that is stored on your computer
+		. Cookies are saved when you receive a "Set-Cookie" header from a web server
+			. Every request after that is sent using the "Cookie" header
+		. Because HTTP is stateless (can't keep track of previous requests), cookies can be used to remind a web server who you are
+		
+
+Making Requests:
+	. 

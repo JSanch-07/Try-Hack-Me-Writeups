@@ -1,0 +1,126 @@
+An operating system (OS) acts as a bridge between the user, installed software, and hardware
+
+Learning Objectives:
+	. Understand what an operating system is and the role it plays
+	. Explain the core duties of an operating system
+	. Identify common OS types and their typical use cases
+	. Practice interacting with an OS to gather system information
+	
+The Invisible Manager
+	. What is an operating system:
+		. An OS is the core software that coordinates everything happening on a computer system
+		. It acts as the "invisible manager" which keeps the entire machine running as one
+			. User -> Applications -> Operating System -> Hardware
+		. The "Busy Airport" Analogy:
+			. Your Hardware - The runways, airplanes, fuel systems, radar
+			. Your Applications - The various airlines and their passengers
+			. Your Operating System - The entire air traffic control system, directing all of this activity
+		. We need an OS because it provides coordination
+			. This coordination is what makes modern computing possible
+			. Without an OS, each application would need direct control over:
+				. CPU, Memory, Files, Devices, Security, etc.
+	. System Privilege Layers:
+		. In modern computing, different parts of a system operate at various permission levels
+			. Some components communicate directly with the hardware while others run in safer, restricted environments
+			. This prevents both conflicts and security issues
+		. Privilege Separation Spaces:
+			. Kernel Space:
+				. The privileged, locked-down core of the OS
+				. This is where the kernel lives (the part of the OS which communicates directly with the hardware)
+				. It has unrestricted access to the CPU, Memory, Storage, and all other components
+			. User Space:
+				. Where all standard applications run
+				. Applications running in this space are deliberately prevented from accessing hardware directly
+				. Whenever they need to perform an action outside of their permission level, they make a system call and request that the kernel act on their behalf
+	. Operating System Duties:
+		. Process Management:
+			. Creates, schedules, prioritizes and terminates running programs
+			. The OS decides how much CPU time each process gets
+			. Makes multitasking feel seamless
+		. Memory Management:
+			. Allocates RAM to processes, protects the app's memory from other processes
+			. Reclaims memory when apps are closed
+			. When RAM runs low, the OS uses virtual memory to keep your machine stable
+		. File System Management:
+			. Organizes files into directories
+			. Handles naming, paths, permissions, and metadata (name, size, type, timestamps)
+		. User Management:
+			. Handles multiple user accounts, authentication, and permissions to determine who can access what
+		. Device Management:
+			. Loads drivers and provides a universal interface (hardware abstraction layer) so apps can simply say "print {text}" 
+	. Operating System Security:
+		. The OS acts as a security foundation before any antivirus, firewall, etc.
+		. The OS handles:
+			. Authentication - Verifies who you are through methods like credentials and biometrics
+			. Permissions - Controls exactly what each user and app is allowed to read, write, or execute
+			. Isolation - Keeps every process in its own protected box (kernel/user space separation)
+			. System Protection - Safeguards critical system files and settings from unauthorized changes
+	. Getting Hands-on:
+		. Specifications of the Test Machine:
+			. OS - Ubuntu 21.04.1 (64-bit), MATE 1.26.2
+				. Linux kernel
+			. Hardware:
+				. Memory - 1.9GB
+				. Processor - Intel Xeon(R) Platinum 8175M 2.6GHz
+				. GPU - llvmpipe
+			. System Status - 9.1GB available disk space
+
+OS Interaction and Landscape
+	. OS Interfaces
+		. An OS interface allows the user to interact with the Operating System by means of GUI or CLI
+		. Graphical User Interface (GUI):
+			. What most people are used to interacting with
+			. It provides a graphical representation of all the information you want to access on your computer
+			. Think of windows, icons, and menus for system settings
+				. GUIs allow you to tap an icon of the place you want to visit, eliminating the need for typing
+		. Command-line Interface (CLI):
+			. Where you enter specific text based commands to receive/manipulate information
+			. Rather than clicking icons, you tell the computer exactly what you want using words and syntax that the system understands
+			. This gives the user more precision and control over their inputs
+				. The trade-off - Users must be well-versed with CLI syntax for their system	
+	. The Operating System Landscape
+		. Operating System Types and Use Cases:
+			. Desktop - Personal computers, daily work, gaming, content creation:
+				. Rich GUI, runs many apps at once, user focused
+			. Server - Web hosting, databases, cloud services, back-end:
+				. Headless (no GUI), maximum uptime, multi-user, remote access
+			. Mobile - Smartphones and tablets:
+				. Touch-based UI, power-efficient, always connected, app sandboxing
+			. Embedded - Appliances, routers, cars, IoT devices, smart TVs:
+				. Tiny footprint, runs on limited hardware
+			. Virtual/Cloud - Lab machines, containers, cloud instances
+				. Lightweight, scalable, rapid deployment
+	. Real World Operating Systems
+		. Desktop:
+			. Windows: The most widely used operating system on personal computers 
+				. Windows 10 (end-of-life), Windows 11
+			. Apple's desktop OS, known for its polished GUI and integration with other Apple devices
+				. Sonoma (14), Sequoia (15), Tahoe (26)
+			. Linux: Not a single OS but a family of open-source operating systems called distributions
+				. Ubuntu, Debian, Fedora
+		. Server:
+			. Windows: Used in large networks, data centers, and corporate environments
+				. Server 2016, 2019, 2022, 2025
+			. Linux: The vast majority of web servers, trusted for its reliability and open-source nature
+				. Ubuntu Server, Debian, CentOS, Red Hat
+			. Unix: Large enterprises, finance, telecom, government
+				. IBM AIX, Oracle Solaris
+		. Mobile:
+			. Android: The most widely used mobile OS, which runs on phones, tablets, and smart devices
+				. Android 14 - 16, Manufacturer versions
+			. iOS: Apple's mobile OS running on iPhones, iPads, and other devices
+				. iOS 17, 18, 26
+		. Embedded/IoT Devices:
+			. Embedded Linux: Specialized OS built into devices with dedicated functions
+				. OpenWrt, Ubuntu Core, Yocto Project
+			. Real-Time OS: Designed for apps where tasks need guaranteed response times (aircraft controls)
+				. FreeRTOS, VxWorks, QNX
+		. Virtual and Cloud:
+			. Cloud/VM: Massive data centers that host websites, apps, and streaming services
+				. Ubuntu LTS, Amazon Linux, Rocky Linux
+			. Container-optimized: Lightweight alternatives to VMs that package just the app and its dependencies
+				. Alpine Linux, Bottlerocket AWS, Flatcar Linux
+	. Why So Many Operating Systems
+		. Different devices/environments require different capabilities from an OS
+			. A laptop must be user-friendly and support multitasking
+			. A server requires stability, security, and must be able to run nonstop

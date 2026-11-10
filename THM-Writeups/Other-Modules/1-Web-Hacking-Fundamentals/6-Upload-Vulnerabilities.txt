@@ -1,0 +1,134 @@
+Intro:
+	. The ability to upload files to a server has become a huge part of how users interact with websites
+	. This capability can make a website vulnerable to various types of attacks including RCE, XSS, CSRF and more
+	. Within this room, we will be looking into the following:
+		1. Overwriting existing files on a server
+		2. Uploading and Executing Shells on a server
+		3. Bypassing Client-Side filtering
+		4. Bypassing various kinds of Server-Side filtering
+		5. Fooling content type validation checks
+ 
+General Methodology:
+	. We have a file upload point on a site. How would we go about exploiting it?
+	1. Gain information (recon):
+		. Looking at the source for client-side filtering
+			. This type of filtering can be bypassed using numerous methods
+		. Subdirectory scanning using a tool like gobuster
+		. Intercepting upload requests using dev tools, Burp Suite, etc
+		. A browser extension like Wappalyzer can help find valuable information on a website
+	2. Poke and Pry
+		. See what we can't upload
+		. Client-side filters vs server-side:
+			. If the website uses client-side filtering, we can look into the source for the filter and plan our bypass
+			. If the website uses server-side filtering, we may need to guess what the filter is looking for
+				. upload a file, then try something slightly different based on the error codes
+				. Uploading files designed to return errors can be helpful
+					. Tools like Burp Suite and OWASP ZAP are helpful at this stage
+
+Overwriting Existing Files:
+	. When files are uploaded to a server, a range of checks should be carried out to ensure that the file will not overwrite any existing files on the server
+		. Common practice is to assign the new file a new name (file name + either a random value or the date/time the file was uploaded)
+	. Other checks may be applied to see if the filename already exists on the server; if a file with the same name already exists then the server will return an error
+	. File permissions also come into play when protecting existing files from being overwritten:
+		. Web pages should not be writeable to the web user, thus preventing them from being overwritten with a malicious version uploaded by the attacker
+	. Example:
+		. When looking into the "demo.uploadvulns.thm" domain, we see:
+			. We have options to select a file and upload
+			. Looking into the HTML:
+				. <html>
+				 ...
+				  	 <img class='uploadImg' src='images/spaniel.jpg' alt=''>
+				 ...
+				 </html>
+				
+				. This shows us the image name (spaniel) and where the pictures are being pulled from (/images)
+			. We know where the image is being pulled from, can we overwrite it?
+				. We can test this by:
+					. downloading an image
+					. naming it spaniel (whatever the name of the target file is)
+					. then uploading it to the web server
+	. Overwrite the "mountains.jpg" images in the overwrite.uploadvulns.thm website:
+		1. Look into the page source to find the name of the target image (mountains.jpg)
+		2. Download a test file with the same name and extension
+		3. Upload the file to the server using the website's GUI
+		
+Remote Code Execution:
+	. RCE allows attackers to run malicious code on a target system from a remote location, without needing physical access or prior authentication
+	. RCE via an upload vulnerability in a webapp:
+		. Uploading a program written in the same language as the back-end of the website
+			. Could also be written in another language the server understands
+		. Usually including languages like JavaScript, Python Django, PHP, etc
+		. It's worth noting that in a webapp which is routed programmatically, this method of attack becomes a lot more complicated and less likely to occur
+			. Routed programmatically:
+				. Rather than URL paths matching with server directories, modern webapps route URL paths to program functions
+				. This is a safer practice because your server's actual directory layout never gets exposed
+	. There are two basic ways to achieve RCE on a webserver when exploiting a file upload vulnerability:
+		. Webshells - most often available due to:
+			. A file length limit has been imposed on uploads
+			. If firewall rules prevent any network-based shells
+		. Reverse/Blind Shells - attacker preferred
+	. What we plan to do at a basic level:
+		1. Upload a shell of some kind (webshell or a reverse/blind shell)
+		2. Activate the shell
+			. This can be done by:
+				. Navigating directly to the file if the server allows it (non-routed applications with inadequate restrictions)
+				. Or find another way to force the webapp to run the script for us (necessary in routed applications)
+	. RCE Using a Webshell Against a PHP Back-end:
+		. Assume we found a webpage with an upload form
+		. We can start with a gobuster scan:
+			. We find 3 new directories (uploads, assets, and resources)
+		. Let's now upload a test file to see if everything works as intended
+		. Since images work fine, let's move on to uploading a Webshell:
+			. Since we know the back-end uses PHP, we'll get straight into creating/uploading the shell
+				. In the real world, more enumeration would likely have to take place before attempting an upload
+			. How does a Webshell work?
+				. Webshells work by taking a parameter and executing it as a system command
+					. PHP syntax:
+						. <?php
+							echo system($_GET["cmd"]);
+						  ?>
+					. This code takes a "GET" parameter and executes it as a system command
+					. Echo is used to display the output onto the screen
+			. After creating the .php file, upload it like any other image file
+			. Navigate to the "/resources" directory where you will see all previous uploads and click on the .php file
+				. The page will appear to be blank
+			. Now we can send commands to the shell via the URL like this:
+				. URL - ".../resources/webshell.php?cmd=id;whoami;ls"
+					. Runs - id, whoami, and ls
+				. View the contents of index.php:
+					. URL - ".../resources/webshell.php?cmd=cd ..;cat index.php"
+				. Navigate to root directory:
+					. URL - "/resources/webshell.php?cmd=cd /;ls;"
+			. Note:
+				. It's usually easier to view output by viewing the page source
+				
+	. RCE Using a Reverse Shell Against a PHP Back-end:
+		. The process for uploading a reverse shell is almost identical to that of uploading a webshell
+		. We'll be using the ubiquitous Pentest Monkey reverse shell
+			. This comes by default on Kali Linux
+			. Or downloaded via: https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/master/php-reverse-shell.php
+		. Steps:
+			. First, we need to upload our reverse shell
+			. Once uploaded, we need to setup a listener
+				. This is how we will remotely interact with the shell
+				. We can use the following netcat command:
+					. nc -lvnp 1234
+						. "1234" is our listening port
+			. After we start the listener, we can access the reverse shell file using our browser
+				. The website should appear to hang
+			. Once opened, we can go back to the listener terminal window where we will see that we got a connection
+		. With this shell, we can interact with the server directly
+			. Add or delete files, attempt privilege escalation, etc
+
+Filtering:
+	.
+Bypassing Client-Side Filtering:
+	.
+Bypassing Server-Side Filtering - File Extenssions:
+	.
+Bypassing Server-Side Filtering - Magic Numbers:
+	.
+Example Methodology:
+	.
+Challange (Optional):
+	.

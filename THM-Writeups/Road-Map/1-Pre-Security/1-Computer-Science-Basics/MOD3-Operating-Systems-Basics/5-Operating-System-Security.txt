@@ -1,0 +1,64 @@
+Intro to OS Security:
+	. Whenever you use a computer, you interact with the OS (directly or indirectly)
+	. Hardware:
+		. What is Hardware?
+			. Hardware includes all of the physical computer parts and peripherals
+				. Examples: keyboard/mouse, monitor, RAM
+		. The Desktop Board:
+			. Where all other hardware components connect (mouse, CPU, etc.)
+		. Without an OS, hardware is useless if your goal is to run applications
+	. Software vs Hardware:
+		. Software - Programs (Firefox, MS-Office, Steam) and OS (Windows, iOS, Linux)
+		. Hardware - CPU, RAM, SSD/HDD, Screen
+	. The OS manages communication between the hardware and applications
+		. The OS sits between the hardware and applications
+	. Examples of OS depending on Use Case:
+		. Laptop/PC - MS Windows 11 and macOS
+		. Smartphone - Android and iOS
+		. Servers - MS Windows Server 2022, IBM AIX, and Oracle Solaris
+	. An OS must be secure for the following reasons:
+		. Protect personal information
+		. Protect corporate information
+		. Security is concerned with attacks against:
+			. Confidentiality - You want to ensure that secret and private files and information are only available to intended persons
+			. Integrity - It is crucial that no one can tamper with the files stored on your system or while being transferred on the network
+			. Availability - You want your laptop or smartphone to be available to use anytime you decide to use it
+
+Common Examples of OS Security:
+	. Commonly Exploited Weaknesses:
+		. Authentication and weak passwords
+		. Weak file permissions
+		. Malicious programs
+	. Authentication and Weak Passwords:
+		. Authentication - The act of verifying the user's identity
+			. Examples: PIN code, fingerprint, phone number + SMS
+		. Top 5 Most Common Passwords:
+			1. 123456
+			2. 123456789
+			3. qwerty
+			4. password
+			5. 111111
+	. Weak File Permissions:
+		. Proper security dictates the principle of least privilege
+			. All files should only be accessible by those who need access
+			. Example: Users from the customer service department should not be able to make changes which will affect the accounting department
+	. Access to Malicious Programs:
+		. Depending on the type of malicious program, it can attack confidentiality, integrity, and availability
+			. Trojan - Gives the attacker access to your system
+			. Ransomware - Where the attacker holds your data for ransom (by means of encryption) and demands payment
+Practical Examples of OS Security:
+	. In a typical attack, the attacker will attempt to gain access to a remote system by:
+		. Obtaining credentials
+		. Tricking the user into running malware
+	. An attacker may attempt to escalate their privileges (administrator/root)
+		. These user accounts have complete access and control over the system
+		. Important commands:
+			. whoami
+			. ssh <username>@<machine_IP>
+				. use "exit" to log out when finished
+			. ls
+			. cat <file_name>
+			. history - Displays previously run commands
+			. su <username> - switch user
+		. Default Linux tools are located in the /root/Desktop/Tools and /opt/ directories
+			

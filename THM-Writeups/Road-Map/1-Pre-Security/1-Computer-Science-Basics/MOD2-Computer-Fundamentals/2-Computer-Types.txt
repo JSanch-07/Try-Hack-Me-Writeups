@@ -1,0 +1,67 @@
+Intro Summary:
+	. Computers come in many forms, from standard laptop and desktop computers to smart fridges and dishwashers.
+
+Goal of this room:
+	. Identify and distinguish between different types of computer systems.
+
+Sophia's Summer of Hidden Computers - Month 1:
+	. Not all computers are meant:
+		. To move
+		. For people to sit in front of
+	. Different Types of Computer Systems (1):
+		. Laptop:
+			. Use a screen and keyboard and are used for portable everyday computing
+			. Caveat: Staying cool is difficult due to the small form-factor and use of a battery
+		. Desktop:
+			. Use a screen and keyboard and are used for sustained performance at a fixed location
+			. Caveat: Stationary and gets its power from a wall outlet
+		. Workstation:
+			. Use a screen and keyboard and are used for precision and reliability for professional tasks
+			. Caveat: Stationary and wall powered but also uses complex components to ensure accuracy when performing complex calculations/tasks
+		. Server:
+			. Do not use a screen and keyboard and are used for providing services to many users over a network
+
+Sophia's Summer of Hidden Computers - Month 2:
+	. Different Types of Computer Systems (2):
+		. Smartphone: Pocket-sized computer optimized for battery life and internet connectivity
+			. Example: iPhone, Android phone, Samsung phone
+		. Tablet: Touch-first computer with a larger screen than a smartphone
+			. Examples: iPad, drawing tablet, Kindle
+		. IoT Device: Network-connected device with a single purpose
+			. Examples: Thermostat, smart doorbell, fitness tracker (watch)
+		. Embedded Computer: Computer built into another device
+			. Example: Coffee maker controller, automatic door sensor, lamp dimmer chip
+	. IoT vs Embedded:
+		. Both IoT and Embedded computers can be small and single-purpose
+		. The difference is connectivity:
+			. IoT devices connect to a network to report data/receive commands
+			. Embedded computers might not connect to anything at all (they do their job inside of the machine)
+				. Embedded: invisible, reliable, and everywhere
+
+Why Computers Come in Different Flavors:
+	. Every computer design has a trade-off
+		. Smaller, more compact computers sacrifice performance
+		. Larger computers sacrifice mobility
+	. Purpose shapes everything when debating which form factor a specific computer should be
+	. Lab Notes:
+		. Why are laptops more prone to overheating?
+			. Laptops use tiny fans, heat pipes, and a heat sink
+			. Although these methods work for the most part, they cannot keep up with the standard cooling methods for desktop computers
+		. Since servers support a business 24/7, how do you protect the servers from a power outage?
+			. Redundant power reduces a single failure point
+				. Example: A server has 2 power source cables rather than 1
+		. Computer types and applications examples:
+			. Edit a 4K video for hours on end: Workstation
+			. Host a website 24/7: Server
+			. Ring when button is pressed: Embedded computer
+		. Practice Questions:
+			1. Why do laptops throttle more than desktops?
+				. Answer: Less cooling space
+			2. What does server redundancy prevent?
+				. Answer: Prevents a single point of failure
+			3. Why do smartphones last longer on battery than laptops?
+				. Optimized for power efficiency
+			4. ECC RAM and certified drivers are common features for which type of computer?
+				. Answer: Workstation
+			5. In many smart homes, what coordinates devices?
+				. Answer: Hub/Cloud service

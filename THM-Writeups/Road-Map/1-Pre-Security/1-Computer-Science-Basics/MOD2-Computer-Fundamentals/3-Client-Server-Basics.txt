@@ -1,0 +1,65 @@
+Learning objectives:
+	. Understand the Client-Server Model
+	. Understand the following concepts on a surface level:
+		. DNS - Domain Name Service
+		. Client
+		. Server
+		. Port
+		. Protocol
+		. Network
+
+Pizza Delivery Analogy:
+	. How each step of the pizza delivery process relates to how computer systems provide service:
+		. Client (customer) & Server (pizzeria)
+		. Request & Response - Similar to ordering the pizza
+		. Protocol - The rules for communication (protocol) can be expressed as the customer's order details (pepperoni, extra cheese, etc.)
+		. Port - Can be expressed as different departments of the pizzeria:
+			. Department A: Takeout
+			. Department B: Dine-in
+			. Department C: Delivery
+		. DNS - Entering the name of the pizzeria into a GPS to get the pizzeria's location
+	
+	. Each Step in Detail:
+		. Client (the computer requesting service) & Server (the computer providing service)
+		. Request and Response - When a service a client is requesting is not available, the server will return an error
+		. Protocol - Rules for communication (communication over HTTPS - port 443)
+		. DNS (domain name service) - A dictionary of all domain names (e.g. www.website.com) and their respective IP addresses
+
+Web Communication in Practice:
+	. Hypertext Transfer Protocol Secure (HTTPS): A stateless client-server protocol used for the internet
+		. Stateless: each request is processed independently without the server retaining previous request information
+	. Although HTTPS itself is stateless, many modern websites/applications implement ways to introduce statefulness at the application level
+		. Example: Cookies created by a web server upon logging into a website
+			. The cookie information is sent with each subsequent request
+		. Without these mechanisms, you would need to authenticate again for each request because the server would have no memory of your previous login
+	. HTTP Commands/Methods:
+		. In the main specifications that define HTTP (Request for Comments / RFC docs), there are 9 core commands:
+			. GET
+			. POST
+			. PUT
+			. DELETE
+			. PATCH
+			. HEAD
+			. OPTIONS
+			. CONNECT
+			. TRACE
+			
+	. GET in Depth:
+		. The GET method is used to retrieve a resource from a web server
+			. Example: "GET https://www.website.com/index.php" retrieves the website's homepage
+			. This command is what gets executed if you enter "www.website.com/index.php" into your browser's search bar
+			. When the webserver receives the request, it sends a response
+				. This response contains a status code and other request information
+		. Requests can be analyzed via browser dev tools using the network tab
+		. Request Fields:
+			. Scheme - Tells us which protocol was used (e.g. HTTP or HTTPS)
+			. Host - Tells us the name of the host we're requesting resources from
+			. Filename - Indicates which file we requested from the host ("/" translates to index.html: a website's home page)
+			. Address - Displays the IP where the website is hosted
+			. Status code - This field indicates whether the request was successful or not (200 = OK, 404 = file not found)
+		. Response and response fields: 
+			. When we send a request, we'll get a response back from the server
+			. The response is divided into 2 parts:
+				1. The response header - contains metadata about the response
+				2. The response body - contains the requested content
+			. You can view the response body by clicking on the response tab in the network section of dev tools

@@ -1,0 +1,84 @@
+Introduction:
+	. Reasons for cloud computing:
+		. Multiple users attempting to connect to an app at once
+		. You want your app to be accessible without having to keep your own server running 24/7
+		. Reduce lag for foreign users
+
+Cloud Computing Overview:
+	. Cloud Computing Use Cases:
+		. Move locally stored files to online storage (save physical space)
+		. Run your application using cloud provided resources rather than your own
+		. Cloud hosted applications are easy to access, reliable, and scalable (ready to grow with the increasing number of users)
+	. The Evolution of the Cloud:
+		. Physical Servers (1960s-2000)
+			. Physical servers in company buildings
+			. One server = One Job
+			. Expensive and slow to scale
+		. Virtualization (1999-2006)
+			. Multiple virtual servers on one machine
+			. Better hardware utilization
+			. Faster provisioning
+		. Automation & Remote Management (2003-2006)
+			. Servers managed over the internet
+			. Early automation infrastructure
+		. Cloud Computing - AWS Launch (2006)
+			. Rent virtual computers & storage on demand
+			. No hardware ownership
+			. Elastic scaling in minutes
+		. Modern Cloud Era (2012-today)
+			. AWS, Azure, Google Cloud
+			. Containers
+			. Focus on apps, not servers
+			. Global-scale platforms
+	. Cloud Benefits and Characteristics
+		. The cloud was designed to address the problems of limited capacity, high costs, and slow growth
+			. Scalability - Easily scale up or down depending on your applications usage rates
+			. On-demand self-service - Create or remove servers and storage instantly (without waiting for hardware)
+			. Pay only for what you use - You are charged based on usage, not upfront costs
+			. Security - Cloud providers protect the infrastructure with strong security measures
+			. High availability - Applications keep running even if the system fails
+			. Global Access - Your app can be accessed worldwide
+	. Types of Cloud
+		. The flexibility provided by the cloud allows apps to be run in different ways
+			. Deployment types:
+				. Public cloud - Used by startups, websites, and global apps because it's affordable, scalable, and requires no infrastructure management
+				. Private cloud - Used by banks, healthcare, and government organizations because it offers greater control and compliance for sensitive data when compared to public clouds
+				. Hybrid cloud - Used by companies like e-commerce platforms that need to keep sensitive data private while still scaling publicly during high demand
+			. Different Ways to Use Cloud Services:
+				. Infrastructure as a Service (IaaS) - Renting an empty apartment:
+					. You rent basic computing resources (virtual servers, storage, networking)
+					. You are responsible for managing the OS and your app while the provider manages physical hardware
+				. Platform as a Service (PaaS) - Renting a semi-furnished apartment:
+					. The cloud provider manages the infrastructure and the OS
+					. You focus on building, running, and deploying your app without worrying about servers
+				. Software as a Service (SaaS) - Staying at a hotel:
+					. You use a complete application over the internet
+					. The provider manages everything while you just access the software through a browser/app
+					. Examples: Gmail, Zoom, Netflix
+	. Major Cloud Vendors
+		. Microsoft Azure - A strong competitor (common for enterprise / hybrid cloud environments)
+		. Google Cloud Platform (GCP) - Known for powerful data analytics, AI, and machine learning tools
+		. Alibaba Cloud - A major player in Asia, offering competitive global cloud services
+		. IBM Cloud - Focuses on hybrid cloud and AI-driven solutions for business
+		. Oracle Cloud - Focuses on enterprise applications and databases
+	. How Companies Are Using the Cloud
+		. Netflix - runs its entire platform on AWS so it can stay online and scale globally
+		. Spotify - uses the cloud to handle millions of songs and users
+		. Instagram - relies on the cloud to store massive amounts of photos and videos
+		. Online Stores - use the cloud to handle traffic spikes during events like Black Friday without buying permanent physical infrastructure
+	. Summary Questions:
+		1. What is the characteristic of cloud environments that enables you to handle an unexpected increase in access to your application?
+			. Answer: Scalability
+		2. What is the most common type of cloud deployment used?
+			. Answer: Public Cloud
+		3. Suppose you want to deploy an application to the internet, focusing only on application development and leaving infrastructure to others. What type of cloud service is the best?
+			. Answer: Platform as a Service (PaaS)
+
+Deploying a Cloud Instance:
+	. EC2 (Virtual Computer/Server):
+		. EC2 represents a virtual computer in the cloud
+		. Whenever you add an EC2 instance, you are adding a computer to your environment
+	. Instance Type:
+		. Instance types describe how powerful the virtual computer is
+			. Depends on hardware factors like CPU and RAM
+			. More powerful = Higher cost

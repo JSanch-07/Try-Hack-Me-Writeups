@@ -1,0 +1,40 @@
+Intro
+	. Learning Objectives:
+		. Understand what the Linux terminal is and what it's used for.
+		. Feel comfortable interacting with the Linux environment.
+		. Navigate through the Linux filesystem with basic commands.
+	. CLI stands for Command-line Interface
+
+Navigation Mission - Find the Missing Notes:
+	. Linux Terminal Basics:
+		. The terminal is a text-based interface which controls a Linux system
+		. Why use the terminal?
+			. Faster than clicking around
+			. Gives the user more control
+			. Many security tools only run in the terminal
+		. Terminal Interaction:
+			. "pwd" (print working directory) - Prints the current working directory into the terminal window
+			. "ls" - lists folders and files located in the current working directory
+				. ls -l for more detail (file size, permissions, dates, etc.)
+				. ls -al for all hidden files
+			. Hidden files aren't "secret"
+				. They start with a "." and Linux hides such files by default
+			. "cd" (change directory) - Change to a target directory
+				. cd .. to go back 1 directory
+			. "find" - Built-in Linux utility used to find files
+				. Example: find <starting_point> -name <filename>
+			. "cat" - Prints the contents of a file into the terminal window
+			
+Investigating the System:
+	. Gathering Information About a Linux System:
+		. "whoami" - Displays who you are logged in as
+		. "uname -a" - Displays certain system information (OS, kernel version, and architecture)
+			. Example output explained:
+				. Linux tryhackme 6.14.0-1018-aws #18~24.04.1-Ubuntu SMP Mon Nov 24 19:46:27 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
+					. Linux: The system is running the Linux kernel.
+					. tryhackme: The hostname (the computer’s name).
+					. 6.14.0-1018-aws: The kernel version installed on the machine.
+					. x86_64: The hardware platform (also 64-bit).
+					. GNU/Linux: The operating system type (Linux kernel + GNU tools).
+		. "df -h" - commonly used to check disk usage or available space
+			. -h = human-readable (shows sizes like 2G rather than long bytes-only numbers)

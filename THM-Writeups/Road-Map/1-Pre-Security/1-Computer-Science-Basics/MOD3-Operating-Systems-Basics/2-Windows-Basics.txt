@@ -1,0 +1,91 @@
+Introduction:
+	. Learning Objectives:
+		. Navigate the Windows graphical interface, including the desktop, taskbar, and Start menu
+		. Use File Explorer to browse folders, understand file paths, and organize files effectively
+		. Check system settings and personalize the Windows environment using the Settings app
+		. Use basic system tools like Task Manager and Windows Security to monitor performance and verify system protection
+
+Exploring the Windows Workspace:
+	. Before the polished look of current Windows versions, Microsoft's operating systems were much simpler
+		. MS-DOS - Showed a black screen where you had to type commands instead of clicking icons
+	. The first GUI-based OS Microsoft released was Windows 1.0
+		. This OS was built on MS-DOS
+		. It introduced windows, menus, and mouse controls
+	. Logging In and Authentication:
+		. Before gaining access to the OS, you must first authenticate
+			. This process verifies your identity and determines the actions you're allowed to take once logged in
+		. User Types and Permission Levels:
+			. Guest - Restricted account intended for temporary access (least privilege)
+			. Standard - User account for everyday tasks (can change personal settings but cannot access system-wide changes)
+			. Administrator - Privileged account with full control over the system (software installation, configuration changes, and user management)
+	. The Windows Desktop:
+		. Core Features of the Windows Desktop:
+			. Desktop - The main workspace where files, folders, and shortcuts live
+			. Taskbar - A control strip consisting of pinned (quick-access) applications
+			. Desktop Icons - Shortcuts to items like the recycle bin, folders, and frequently used applications
+			. Start Menu - Primary way to access applications, settings, and power options
+			. Search - Used to quickly access a specific application via keyword search
+			. Task View - Allows you to see all currently open windows and quickly switch between them
+			. Pinned Applications and Folders - Your most used applications and folders can be pinned here
+			. Network and Audio Settings - This section can be customized to suit the users needs
+			. Date and Time - Provides access to a full calendar as well as date and time settings
+			. Notifications - Displays computer applications and notifications as well as other network settings
+	. Built-in Tools and Apps:
+		. Windows ships with many built-in tools and applications users will use daily
+			. Notepad - Built-in text editor
+			. File Explorer - GUI for file system navigation
+	. Getting System Information:
+		. Windows built-in settings application allows you to both configure and view system information
+			. System > About
+		. The About your PC page provides information about security, the device, and the operating system
+	. File Explorer and Management:
+		. Windows uses a hierarchical file structure
+			. Meaning - Folders can contain other folders and files
+		. This helps keep data organized and easy to locate
+
+Configuring and Securing Windows:
+	. Updating Your Applications:
+		. Windows Updates:
+			. Windows Update is Windows' own built-in update tool 
+		. Updating Applications:
+			. Updating works differently from application to application
+				. Built-in applications may update automatically in the background
+				. Third-party applications often include their own update mechanisms
+				. Some applications will prompt you to update upon launch
+				. Some require you to check for updates or download a new installer manually
+	. Installing Applications:
+		. Microsoft Store - Provides a curated and safe option for installing Windows applications (not on Windows Server by default)
+		. From the Internet - In some cases, apps are installed by directly downloading the application installer found on the internet
+			. exe or msi files
+			. The vendor of the installer must be trusted; if not, installing it is risky
+	. Uninstalling Applications:
+		. Different Ways to Uninstall Applications:
+			. Using the Microsoft Store for installed applications
+		. Add or remove programs feature in system settings
+		. Uninstall a program section of the Control Panel
+		. Using an application's built-in uninstaller
+	. Diving Into Settings:
+		. Windows Settings - A modern and centralized location for configuring system, device, and personalization settings
+		. Control Panel - A legacy management interface which provides access to older system configuration tools still required for specific administrative tasks
+	. The Task Manager:
+		. The Task Manager is a built-in Windows tool that provides information including CPU and memory usage
+		. The 5 Task Manager Tasks:
+			. Processes - Currently running apps and background processes, and their resource usage
+			. Performance - Graphs and statistics for system resources such as CPU, memory, and network
+			. Users - Currently logged-in users and used resources 
+			. Details - A more technical view of running processes, including process IDs (PIDs)
+			. Services - Windows services and their current status (running or stopped)
+	. Native Windows Security:
+		. Windows Security and Native Security Applications:
+			. Virus & threat protection: Helps detect and remove malicious software using real-time protection and customizable scans
+			. Firewall & network protection: Controls incoming and outgoing network traffic to help prevent unauthorized access
+			. App & browser control: Protects users from potentially unsafe apps, files, and websites
+			. Device security: Provides hardware-based protections that help secure the system
+	. Windows Defender Firewall:
+		. Windows Defender Firewall is a built-in firewall used to protect a Windows computer from unauthorized network traffic
+		. It monitors network connections and applies rules to determine which connections should be blocked
+		. Windows Defender Firewall Network Profiles:
+			. Domain: Used when a system is connected to an organization’s domain network
+			. Private: Intended for trusted networks, such as a home or lab environment 
+			. Public: Used for untrusted networks, such as public Wi-Fi
+

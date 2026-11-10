@@ -1,0 +1,88 @@
+Introduction:
+	. Learning Objectives:
+		. Understand why managing applications on individual physical servers is inefficient
+		. Learn how virtualization addresses hardware utilization and scalability challenges
+		. Understand the components of a lab machine
+		. Learn how containers have further optimized hardware utilization for applications
+		
+Virtualization Overview:
+	. Before virtualization, the rule of thumb in IT was: one server = one application
+	. In the early days of IT, digital services were run exclusively on physical hardware
+		. Each physical machine would usually have a clear purpose (hosting a website, storing data, etc.)
+	. Problems with the "One job per box" approach:
+		. High Cost - Buying multiple physical servers is expensive, not just the hardware itself, but the electricity, space, and maintenance
+		. Low Utilization - Most applications don't use the server's full capacity (most servers stayed around 5-20% utilization), wasting CPU, memory, and storage resources
+		. Slow Deployment - Setting up new physical servers could take days or weeks
+		. Hard to Scale - If an application suddenly needed more resources, you would have to buy yet another server
+		. In short, companies were paying a lot for hardware that wasn’t being fully utilized.
+	. The Need for Sharing Hardware Safely and Efficiently
+		. Virtualization introduced a new idea: What if multiple applications could share the same physical hardware safely?
+		. A virtualization layer, called a hypervisor, was introduced to act as a referee between lab machines
+			. Allows each virtual computer to behave independently, like a physical computer
+	. The Building Analogy
+		. Imagine one person lives alone in an entire 10-floor building:
+			. The person uses 1 floor but has to maintain the other 9 (electricity, cleaning, etc.)
+			. Most of the building is unused
+			. It's expensive, inefficient, and unnecessary for the person's needs
+		. Now imagine dividing the building into separate apartments
+			. Each apartment has its own privacy
+			. Different people can live independently without bothering each other
+			. They all share the building's main structure, which makes it cheaper and more efficient for everyone
+		. This is virtualization:
+			. The building - The physical hardware
+			. Each apartment - Each lab machine in your hypervisor
+			. The tenants - applications/operating systems
+			. The building manager - The hypervisor (software that divides each machine safely)
+	. Each VM acts as an independent system with its own OS, applications, and settings
+	. Virtualization enables multiple applications to share the same physical server
+	
+Virtualization Components
+	. Hypervisor (The building manager)
+		. This is the core technology behind virtualization
+		. It's the software that:
+			. Divides a physical computer into multiple virtual computers
+			. Gives each lab machine its own share of the host computer's hardware (CPU, storage, and RAM)
+			. Keeps everything isolated from VM to VM
+			. Manages the life cycle of each VM (start, stop, pause, delete)
+		. Hypervisor Implementation Types:
+			. Type 1 hypervisor: Runs directly on the physical hardware
+				. Fast, efficient, and ideal for servers and professional environments
+			. Type 2 hypervisor: Runs within the existing OS
+				. Easy to install, ideal for learning / running small setups
+		. Hypervisor Type Use Cases:
+			. Type 1:
+				. Production server
+				. Database server
+				. Data center
+			. Type 2:
+				. Test malicious files
+				. Software testing
+				. Kali Linux
+	. Lab Machines (the apartments)
+		. A Lab Machine (VM) is a virtual computer created by the hypervisor
+			. Behaves as a real machine although it is virtual
+		. A virtual machine:
+			. Has its own virtual hardware (CPU, RAM, storage, and network)
+			. Can run any OS (Windows, Linux, Mac, etc.)
+			. Is completely isolated from other VMs in the hypervisor
+				. If VM-1 breaks, VM-2 and VM-3 will be unaffected
+		. VMs can be deployed using hypervisors like VirtualBox or VMware (these are type 2 examples)
+		. Why use a VM?
+			. If you want to get some practice with another OS
+			. If you want to test malicious files
+	. Containers (the rooms inside each apartment)
+		. A lightweight, isolated environment that runs a single application (and all necessary app components)
+			. Instead of bringing an entire separate OS
+		. A container borrows the core of the existing system by running in the kernel
+			. Kernel - the part of the OS that communicates with the hardware and manages resources (e.g. memory, programs, etc.)
+		. Because containers share the kernel, they start up fast and use less resources
+			. This means you must match the host system's type (you cannot run a Windows container in Linux)
+		. Containers behave like small, self-contained spaces because:
+			. They package the application and its dependencies (tools, versions, etc.)
+			. They share the host's operating system (this means they start instantly)
+			. They remain isolated from each other (a misbehaving container doesn't affect the others)
+			. They can run consistently on any machine (perfect for development/testing and scalable deployments)
+		. The easiest way to deploy a container inside a VM is through Docker
+			. Docker is an open-source software platform that simplifies the process of building and deploying containers
+
+

@@ -1,0 +1,171 @@
+Let's go on an adventure (Reconnaissance):
+	. "walking through" the application is a form of reconnaissance
+	. Answer the following questions:
+		. What is the administrator's email address?
+			. "admin@juice-sh.op"
+			. Found by looking through product reviews
+		. What parameter is used for searching?
+			. "q"
+			. Found by making a search and looking at the query params within the URL
+		. What show does Jim reference in his review?
+			. Under a product review, Jim references Star Trek in the following sentence: "Fresh out of a replicator"
+
+Injecting the juice (Injection):
+	. Injection vulnerabilities can result in downtime and/or data loss for a service
+	Injection types:
+		. SQL Injection - When an attacker enters a malicious or malformed query to either retrieve or tamper with data in a database
+		. Command Injection - When a web-app takes input or user-controlled data and runs it as system commands (can be seen when an app has misconfigured ping tests)
+		. Email Injection - Allows an attacker to send emails without prior authorization from the email server
+	. Log into the admin account:
+		. Upon analyzing the login request, we notice the JSON string is sent as follows:
+			. {"email":"test","password":"pass123"}
+		. We can edit the string so the server always returns true:
+			. We do this by replacing "test" with "' or 1=1--"
+			. New data: {"email":"' or 1=1--","password":"pass123"}
+		. Why did this work?
+			. The character ' will close the brackets in the SQL query
+			. "or" in a SQL statement will return true if either side of it is true. As 1=1 is always true, the whole statement is true regardless of the password, meaning it will tell the server that the email is valid, and log us into user ID 0, which happens to be the administrator account.
+			. The "-- " character is used in SQL to comment out data. This makes it so any restrictions on the login will get commented out and no longer work to protect the system.
+				. E.g. SELECT * FROM accounts WHERE email = '' or 1=1--' AND password = 'pass123';
+					. 1=1 makes the statement always return true
+					. Everything after 1=1 gets commented out
+		. This technique can also be used when attempting to log into an account only knowing the email associated with it:
+			. original request: {"email":"email@a.com", "pass":"guess1"}
+			. payload: {"email":"email@a.com'--"}
+			. Explanation:
+				. Adding '-- closes the statement and comments all data after it
+					
+Who broke my lock (Authentication Exploitation):
+	. When talking about flaws in authentication, we include mechanisms that are vulnerable to manipulation
+	. In this lab, we will be going over and exploiting the following mechanisms:
+		. Weak passwords for high privileged accounts
+		. Forgotten password pages
+		. Broken Authentication
+	. Complete the following tasks:
+		1. Brute-force the admin account's password:
+			. In the "Payload Positions" (sub-tab of the intruder) window in Burp, select the Clear <payload_marker> button
+			. In the password field of the request, place two <payload_marker> within the double quotes
+				e.g. {"email":"admin@juice-sh.op","password":"<payload_marker><payload_marker>"}
+			. In the Payloads window under "Payload Configuration", load a wordlist
+				. The wordlist values will be put inside of the <payload_marker> upon every request
+		2. Reset Jim's password:
+			. After using Jim's email in the account recovery window, we see a hint for the security question:
+				. "Your eldest siblings middle name"
+			. When doing recon on Jim from Star Trek, we find information about his family including:
+				. His brother George's middle name: Samuel
+			. Using this information, we can reset Jim's password to whatever we want, as long as it complies with the security recommendations.
+				In this case, I changed it to match the email address tied to his account
+
+Ah! Don't look (Data Protection):
+	. A web application should store and transmit sensitive data safely and securely
+	. In some cases, a developer may not properly protect their sensitive data, making it vulnerable
+	. Most of the time, data protection is not applied consistently across a web application
+		. This is because certain pages may need to be accessible to the public
+	. Other times information is leaked to the public without the knowledge of the developer, making the application vulnerable
+	. Complete the following tasks:
+		. 1. Access the Confidential Document:
+			. Within the "About Us" page, under "Check out our terms of use", there is a link pointing to a legal information markdown document
+			. When we look at the URL, we see an FTP directory:
+				. http://10.67.179.28/ftp/legal.md
+			. Navigating to that directory reveals a number of files not meant to be seen by the public 
+			. Downloading the acquisitions.md file reveals the flag
+		2. Download the Backup file:
+			. Within the same FTP directory, when we try to download the "package.json.bak" file, we're met with a 403 saying:
+				. "Only .md and .pdf files can be downloaded"
+			. In order to bypass this error, we can use a character bypass called "Poison Null Byte"
+				. Example: %00 (URL-encoded = %2500)
+			. We will be using "%2500" as well as adding ".md" to the end of the url
+				. 10.10.206.192/ftp/package.json.bak%2500.md
+			. Why did this work?
+				. A Poison Null Byte is a NULL terminator and marks the end of a string
+				. By placing a NULL character in the string at a certain byte, the string will tell the server to terminate at that given point, nulling out the rest of the string
+					. This technique fools the front-end validation filter
+				. What we want -> package.json.bak
+				. Make the server think the file ends in .md -> %00.md
+				. Because we Nulled out the .md, the downloaded file is: package.json.bak
+
+Who's flying this thing (Broken Access Control):
+	. Modern-day web applications will allow for multiple users to have access to different pages
+	. Administrators commonly use admin pages to edit, add, and remove different website elements
+		. You might use these when you are building a website with programs such as Weebly or Wix
+	. There are 2 types of Broken Access Control categories:
+		. Horizontal Privilege Escalation - a user can perform an action or access data of another user with the same level of permissions
+		. Vertical Privilege Escalation - a user can perform an action or access data of another user with a higher level of permissions
+	. Complete the following tasks:
+		1. Access the administration page:
+			. We will be using the Firefox debugger (or Sources in Chrome) within the dev tools menu to analyze the website's JS
+			. When we refresh the website, we'll locate the main.js
+			. Inside of the main.js file, search for the term "admin"
+				. This comes back with multiple results
+			. We notice a path:
+				. {path: "administration"...}
+				. Admin panel location: 10.67.182.66/#/administration
+			. Since we've previously cracked the admin account, viewing the administration page logged in as admin gives us the flag
+			. Prevention:
+				. Only load pages needed by the client with regard to their privileges
+				. This path shouldn't be included in the JS run by the client's browser because clients can view this JS
+					. Making the data publicly accessible
+		2. View another user's shopping basket:
+			. Log into the admin account and click on "Your Basket" with Burp running in intercept mode
+			. Forward each request until you see: GET /rest/basket/1 HTTP/1.1
+			. Now, to change the number 1 after /basket/ to 2
+				. GET /rest/basket/2 HTTP/1.1
+			. We can now see the basket of UserID 2
+			. You can do this for other existing UserIDs
+		3. Remove all 5-star reviews:
+			. This can be done within the administration directory while logged in as an admin
+			. You get the flag once the 5-star review is deleted
+
+Where did that come from (XSS):
+	. Cross-site scripting (XSS) is a vulnerability which allows attackers to run JavaScript in web applications
+	. One of the most common vulnerabilities for web applications
+	. Complexity ranges from really easy to really hard
+		. This is because different web apps parse queries in different ways
+	. 3 Major types of XSS:
+		. DOM (Special):
+			. Document Object Model-based
+			. Uses the existing HTML environment to execute malicious JS
+			. Commonly uses the HTML <script></script> tag
+		. Persistent (Server-side):
+			. JavaScript that is run when the server loads the page containing it
+			. This can happen when the server does not sanitize the user data in an upload field
+			. These are commonly found in fields like blog posts
+		. Reflected (Client-side)
+			. JavaScript that is run on the client side of the web application
+			. Commonly found when the server doesn't properly sanitize search data
+	. Complete the following tasks:
+		1. Perform a DOM XSS:
+			. We will be using the <iframe> HTML element with the JS alert tag
+			. What is <iframe>?
+				. <iframe> is used to embed another document within the current one
+				. It acts as a window or portal inside the main page that displays content from a specified source URL
+					. E.g. videos, games, etc.
+			. Payload:
+				. <iframe src="javascript:alert(`XSS`)">
+			. Inputting our payload into the search bar will trigger the XSS alert
+			. Note that there are many other ways to produce this result using something other than <iframe>
+			. This type of XSS is also called XFS (Cross-Frame Scripting), and is one of the most common forms of detecting XSS within web applications
+			. Websites that allow the user to modify the iframe or other DOM elements will most likely be vulnerable to XSS
+			. Why did this work?
+				. It's common practice that the search bar will send a request to the server with the server sending related information back
+				. Without proper input sanitization, search bars become vulnerable to XSS
+		2. Perform a persistent XSS:
+			. First, login to the admin account and locate the "Last Login IP" page in Privacy & Security
+			. Now log out, as it logs the "last login IP", so the new IP gets logged
+			. Within Burp, turn on Intercept and head over to the Headers tab
+			. Replace the header value of True-Client-IP:
+				. True-Client-IP: <iframe src="javascript:alert(`XSS`)">>
+			. When we forward the request and go back to the "Last Login IP" page, the server loads the alert payload
+			. Why did this work?
+				. The True-Client-IP is similar to the X-Forwarded-For header
+					. These headers are used for telling the server/proxy what the client's IP is
+				. Since there was no sanitization done to this field, the attack was successful
+		3. Perform a reflected XSS:
+			. Log into the admin account and navigate to the 'Order History' page. 
+			. Upon clicking the "Truck" icon we're brought to the order page
+				. This page's URL contains an ID paired with the specific order
+			. We will use the <iframe src="payload"> in place of the product ID to test for XSS
+			. After submitting the URL and refreshing the page, the payload gets executed
+			. Why did this work?
+				. The server will have a "lookup table" (depending on the type of server) for each tracking ID
+				. Since the ID parameter is not properly sanitized, the payload gets executed

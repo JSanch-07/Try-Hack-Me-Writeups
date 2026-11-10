@@ -1,0 +1,66 @@
+Intro:
+	. Prerequisite Knowledge:
+		. What is a byte?
+			. A group of 8 bits
+			. Also known as an Octet
+	. Learning Objectives:
+		. Representing 8 colors
+		. Representing 16 million colors
+		. Binary numbers
+		. Hexadecimal numbers
+
+Representing Colors:
+	. Our First 8 Colors (RGB):
+		. You get these 8 colors by combining red, green, and blue 
+		. Colors are represented as 3 digits of 1s and 0s
+			. 100 = Red, 010 = Green, 001 = Blue, 110 = Red and Green are on (Yellow)
+	. From 8 to 16,000,000:
+		. By adding the ability to change the brightness of each light, you get more colors
+			. Instead of 2 levels of brightness (on/off), we now have 256 levels allowing for a broader color profile
+		. Too Many Bits:
+			. One bit can represent 2 states (on/off)
+			. We need 8 bits to represent the 256 states
+			. This means we now need 3 X 8 bits (24 bits or 3 bytes)
+				. Green = 10100011 11101010 00101010
+			. Hexadecimal Representation:
+				. Makes it easy to combine 4 bits into a single character 
+					. 1 = 0001, 5 = 1010
+					. A = 1010, E = 1110
+					
+				. For the color green:
+					. Instead of "10100011 11101010 00101010" we can simply write "A3EA2A"
+						. (1st byte) -> A3, (2nd byte) -> EA, (3rd byte) -> 2A
+						. 			 10100011		   11101010		    00101010
+
+Numbers - From Decimal to Hexadecimal:
+	. Human beings have ten fingers, and this is the most plausible explanation for why we use the decimal (base-10) system in our everyday lives
+	. Unlike humans, computers only have 2 states which they understand
+		. 1 (on) and 0 (off)
+		. Low and high voltage range (transistor-transistor logic)
+		. North and South in magnetic polarity (e.g. HDD)
+		. Light presence (e.g. fiber optics)
+	. Transistor Example in More Detail:
+		. A transistor either passes or blocks electric current
+		. In digital systems, it comes down to a low or high state (representing 0 and 1)
+			. Low voltage range = 0-0.8V
+			. High voltage range = 2-3.3V
+		. The main focus is to use these 2 digits to represent data
+	. Binary Numbers:
+		. In simple terms, the number 212 is the same as saying 100 + 10 + 2
+		. In a more technical representation, 212 = 2x10^2 + 1x10^1 + 3x10^0
+		. The binary (base-2) system can be represented in a similar way:
+			. The binary number 1001 (9) = 1x2^3 + 0x2^2 + 0x2^1 + 1x2^0
+		. The Underlying Pattern:
+			. Binary (base-2):
+				. Rightmost digit - Multiplied by 2^0
+				. The next digit - Multiplied by 2^1
+				. etc.
+			. Decimal (base-10):
+				. Rightmost digit - Multiplied by 10^0
+				. The next digit - Multiplied by 10^1
+				. etc.
+		. Converting 1100, 1101, 1110, and 1111 to the decimal system:
+			. 1100 = 1 × 2^3 + 1 × 2^2 + 0 × 2^1 + 0 × 2^0 = 1 × 8 + 1 × 4 + 0 × 2 + 0 × 1 = 8 + 4 + 0 + 0 = 12
+			. 1101 = 1 × 2^3 + 1 × 2^2 + 0 × 2^1 + 1 × 2^0 = 1 × 8 + 1 × 4 + 0 × 2 + 1 × 1 = 8 + 4 + 0 + 1 = 13
+			. 1110 = 1 × 2^3 + 1 × 2^2 + 1 × 2^1 + 0 × 2^0 = 1 × 8 + 1 × 4 + 1 × 2 + 0 × 1 = 8 + 4 + 2 + 0 = 14
+			. 1111 = 1 × 2^3 + 1 × 2^2 + 1 × 2^1 + 1 × 2^0 = 1 × 8 + 1 × 4 + 1 × 2 + 1 × 1 = 8 + 4 + 2 + 1 = 15

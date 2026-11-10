@@ -1,0 +1,28 @@
+Intro:
+	. Learning Objectives:
+		. Use the Windows command line confidently
+		. Navigate folders without clicking
+		. Find files when you only know their name
+		. Read files using the terminal
+		. Collect basic system and network information
+
+Windows CLI: Navigating Files and Finding Your First File:
+	. The terminal is a text-based interface for interacting with
+	. Windows Terminal Basics:
+		. You can type "cd" with no file specification to get the current working directory
+		. "dir" - Lists folders and files within the current working directory
+			. "dir /a" to include hidden files in the output
+		. "cd <folder_name>" - Change to specified directory
+		. "dir /s <file_name>" - Tells Windows to search for a given file starting in the current working directory
+		. "type <file_name>" - Prints the contents of a file into the console window
+
+Gathering System Information on Windows:
+	. "whoami" - Prints the currently logged-in user into the console window
+	. "hostname" - Prints the name of the computer into the console window
+	. "systeminfo" - Prints lots of system information including the current version of Windows installed
+		. Important information includes:
+			. OS Name
+			. OS Version
+			. System Type
+	. "ipconfig" - Displays basic network information (IPv4, default gateway, etc.)
+		. "ipconfig /a" for more information

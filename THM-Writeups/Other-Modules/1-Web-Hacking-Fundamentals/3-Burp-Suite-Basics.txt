@@ -1,0 +1,113 @@
+Intro:
+	. Learning Objectives:
+		. A thorough introduction to Burp Suite
+		. A comprehensive overview of the various tools available within the framework
+		. Detailed guidance on the process of installing Burp Suite on your system
+		. Navigating and configuring Burp Suite
+
+What is Burp Suite:
+	. Burp Suite is a Java-based framework designed as a comprehensive solution for web application-based penetration testing
+	. The industry-standard tool for hands-on security assessments
+		. Web applications and mobile applications
+	. What does Burp Suite Do?
+		. Burp Suite captures and allows you to manipulate HTTP traffic between browser and server
+	. By intercepting requests, users have the flexibility to route them to various components within the Burp Suite framework
+	. Different Burp Suite Versions:
+		. Burp Suite Community Edition - Free version
+		. Burp Suite Professional - Unrestricted paid version of Burp
+			. An automated vulnerability scanner
+			. A fuzzer/brute-forcer (not rate-limited)
+			. Allows the user to save projects for future use
+			. A built-in API (application programming interface) to interact with other tools
+			. Unrestricted access for adding extensions
+			. Access to Burp Suite Collaborator
+		. Burp Suite Enterprise - Paid and used for continuous scanning
+			. Features an automated scanner (scans for vulnerabilities periodically)
+			. Resides on a server and constantly scans the target web applications for potential vulnerabilities
+
+Features of Burp Community:
+	. Proxy - Enables interception and modification of requests and responses
+	. Repeater - Allows for capturing, modifying, and resending the same request multiple times
+	. Intruder - Sprays endpoints with requests (used for brute force/fuzzing attacks)
+	. Decoder - Provides a service for data transformation (decode incoming info and encode payloads before sending)
+	. Comparer - Enables the comparison of data in either word or byte form
+	. Sequencer - Used when assessing the randomness of tokens (e.g. session cookie values)
+	. Java Code Base:
+		. Facilitates the development of Burp Suite extensions to enhance the framework's functionality
+		. The extensions can be written in Java, Python, or Ruby
+		. Burp Suite Extender - Allows for quick and easy loading of extensions into the framework
+
+The Dashboard:
+	. Tasks Menu:
+		. Allows you to define background tasks that Burp Suite will perform
+		. Default - Live Passive Crawl:
+			. Automatically logs the pages visited
+	. Event Log:
+		. Provides information about the actions performed by Burp Suite
+	. Issue Activity (professional only):
+		. Displays vulnerabilities identified by the automated scanner ranked by severity
+	. Advisory: 
+		. The Advisory section provides more detailed information about the identified vulnerabilities
+
+Navigation:
+	. Primary navigation is done through the top menu bars
+	. How Navigation Works:
+		. Module Selection:
+			. The top row of the menu bar displays available modules
+				. Example: The Burp Suite proxy module
+		. Sub-Tabs:
+			. Modules consist of sub-tabs
+			. Sub-tabs contain module specific information
+		. Detaching Tabs:
+			. If you want to view multiple tabs separately
+			. To do this:
+				1. go to the Window option in the application menu above the Module Selection bar
+				2. choose the "Detach" option
+			. Tabs can be re-attached using the same method
+		. Keyboard Shortcuts:
+			. Ctrl + Shift + D - Dashboard
+			. Ctrl + Shift + T - Target tab
+			. Ctrl + Shift + P - Proxy tab
+			. Ctrl + Shift + I - Intruder tab
+			. Ctrl + Shift + R - Repeater tab
+
+Options & Configuration:
+	. There are 2 types of settings:
+		. Global Settings (AKA user settings) - Settings that affect the entire burp installation
+		. Project Settings - Project specific settings that will only apply to your current project
+	. Burp provides shortcuts to specific category settings 
+		. Example: The proxy module includes a shortcut to the proxy category
+
+Burp Proxy Introduction:
+	. Key points:
+		. Intercepting requests:
+			. When requests are sent through the Burp Suite proxy, they are intercepted and held back from reaching the server
+				. These requests can be seen in the proxy tab allowing for editing, forwarding, etc.
+			. Intercept can be toggled on and off within the intercept tab 
+				. Click "intercept is on" to toggle
+		. Taking Control:
+			. Users have complete control over their requests
+		. Capture & Logging:
+			. Burp Suite captures and logs requests made through the proxy and WebSocket information by default, even when the interception is turned off
+				. Useful for later analysis and review of prior requests
+			
+		. WebSocket Support:
+			. Provides assistance when analyzing web applications
+		. Logs & History:
+			. Logs can be reviewed in the HTTP History and WebSocket History sub-tabs
+			. Useful for retrospective analysis and sending the requests to other Burp modules as needed
+	. Notable Proxy Settings Features:
+		. Response Interception - The "" checkbox allows for more flexible response interception
+		. Match & Replace - The "" section enables the use of regular expressions (regex)
+			. This feature allows for dynamic changes
+				. Example: modifying the user agent or manipulating cookies
+
+Example Attack:
+	. Attempt to test a ticket form for reflected XSS
+	. The form has a special character filter which won't allow the user to test strings like "<script>...</script>" directly
+	. To bypass this, we can send a normal request, then alter that request before it hits the server using the intercept feature in Burp Suite
+		. Example request: email@aol.com -> changed to -> <script>alert(Successful XSS)</script>
+	. After altering the request, be sure to URL encode the payload using "Ctrl + U" before forwarding the request
+		. Only URL-encode the portion of the request that includes the payload data
+			. Example: "email=...url encoded...ticket=...url encoded..."
+			

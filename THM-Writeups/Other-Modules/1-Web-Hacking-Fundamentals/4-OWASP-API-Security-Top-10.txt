@@ -1,0 +1,197 @@
+Intro:
+	. What is OWASP?
+		. Open Worldwide Application Security Project (OWASP) is a non-profit online community that aims to improve application security
+			. via a set of security principles, articles, documentation, etc.
+		. Back in 2019, OWASP released a list of the top 10 API vulnerabilities
+	. Learning Objectives:
+		. Best practices for API authorization & authentication
+		. Identification of authorization level issues
+		. Handling excessive data exposure
+		. Lack of resources and rate-limiting issues
+
+Understanding APIs:
+	. What is an API & Why is it Important:
+		. API stands for application programming interface
+		. An API is the middleware that facilitates the communication of two software components using a set of protocols and definitions
+			. Simply put, an API allows for two software components to communicate
+		. Terms and Definitions
+			. Application - Any software having a specific functionality
+				. Examples: Spotify, Google Maps, etc.
+			. Interface - The service contract between 2 apps that make communication possible
+				. Example: Uber Eats using Google Maps
+		. An API is a building block for developing complex and enterprise-level applications
+	. Recent Data Breaches through APIs:
+		. LinkedIn (June 2021) - Impacted 700 million users and the data was up for sale on a dark web forum
+			. Information Includes: Full names of the users, email addresses, phone numbers, geolocation records, LinkedIn profile links, work experience information, and other social media account details
+		. Twitter (June 2022) - Impacted 5.4 million users and was listed for sale on the dark web. Hackers exploited a zero-day on one of Twitter's APIs 
+		. PIXLR (JAN 2021) - An online photo editor app suffered a breach that impacted 1.9 million users. All stolen data was dumped on a dark web forum
+
+Vuln I - Broken Object Level Authorization (BOLA):
+	. How Does it Happen?
+		. Generally, API endpoints are used to retrieve and manipulate data through object identifiers
+		. BOLA refers to Insecure Direct Object Reference (IDOR)
+			. The user uses the input functionality and gets access to resources they are not authorized to access
+		. In an API, these controls are usually implemented through programming in models at the code level
+			. Models: Model-View-Controller Architecture
+	. Likely Impact:
+		. The absence of controls to prevent unauthorized object access can lead to data leakage, or worse
+	. Practical Example:
+		. We will be using Google Chrome and the Talend API Tester application for debugging the API endpoints
+		. Example API Endpoint - /apirule1/users/{ID}
+		. Requests can be sent to the API endpoint using the following GET request - GET http://localhost:80/MHT/apirule1_v/user/1
+		. When the request was sent, we receive a 200 OK with our requested data in the JSON body
+		. Why is this an Issue?
+			. The endpoint is not validating any incoming calls to confirm whether the request is valid
+		. The Solution:
+			. Implement an authorization mechanism which identifies who can make API calls to access employee ID information
+			. We can do this using access tokens or authorization tokens in the request and response headers
+	. Mitigation Measures:
+		. An authorization mechanism that relies on user policies and hierarchies should be implemented
+		. Strict access control methods to check if the logged-in user is authorized to perform specific actions
+		. Promote using completely random values for nearly impossible-to-predict tokens
+			. Strong encryption and decryption mechanism
+
+Vuln II - Broken User Authentication (BUA):
+	. How Does it Happen?
+		. User authentication is the core aspect of developing any application containing sensitive data
+		. BUA is where an API allows an attacker to access a database or escalate privileges
+		. The primary reason behind BUA is either invalid implementation of authentication or the absence of security mechanisms
+		. Hackers have created special scripts to profile, enumerate users on a system and identify authentication endpoints
+	. Likely Impact:
+		. Attackers can compromise the authenticated session or the authentication mechanism
+			. Leading them to gain access to sensitive information
+	. Practical Example:
+		. Assume a situation where an API developer only used email to validate the user from the user table and ignored the password field in the SQL query
+		. This means an attacker only requires the victim's email address to get a valid token or account takeover
+		. Hands On:
+			. We will make a POST request to http://localhost:80/MHT/apirule2/user/login_v with email and any password
+				. Request Headers:
+					. We must use the Content-Type header before we can populate the request body with data
+						. Content-Type: "application/x-www-form-urlencoded"
+				. Request Body:
+					. email="admin@mht.com"
+					  password="whatever"
+			. Response:
+				. 200 OK
+				. JSON body:
+					. {
+						success: "true",
+						token: "..."
+					  }
+			. The lab states that we can view user information using the token
+				. GET Request to ...apirule2/user/details:
+					. Headers:
+						. Authorization-Token: {token}
+				. Response:
+					. 200 OK
+					. Response Body:
+						. {
+							"id": 1,
+							"email": "admin@mht.com",
+							"name": "Bob",
+							"token": "0g*[v;~5lyx5L15J25sm$nm:cAWZv}",
+							"address": "H1 Turkey",
+							"city": "Mesport",
+							"country": "Turkey"
+						  }
+	. Mitigation Measures:
+		. Ensure complex passwords for end users
+		. Do not expose sensitive credentials in GET or POST requests
+		. Enable strong JSON Web Tokens (JWT), authorization headers etc.
+		. Ensure the implementation of multifactor authentication (where possible), account lockout, or a captcha system to mitigate brute force against particular users 
+		. Ensure that passwords are not saved in plain text in the database to avoid further account takeover by the attacker
+
+Vuln III - Excessive Data Exposure:
+	. How Does it Happen?
+		. Excessive data exposure happens when an application discloses more information than needed
+			. Example: Disclosing information like device id, IP information, location information, etc.
+		. To prevent excessive data exposure, we should never use network-level devices for controlling excessive data exposure instead of managing it through APIs
+	. Likely Impact:
+		. A malicious actor can successfully sniff the traffic and easily access confidential data
+	. Practical Example:
+		. Assume a comment-based web portal that takes users' comments and stores them in the database along with other excessive information like latitude and longitude
+			. The API developer assumed that the front-end developer would filter out this information before showing it on the company website
+		. The purpose of including this information was to improve the user experience, but if not handled properly, a malicious actor can take advantage of this functionality
+		. Hands On:
+			. Request:
+				. GET http://localhost:80/MHT/apirule3/comment_v/1
+			. Response Body (200 OK):
+				. {
+					id: 1,
+					postid: "1",
+					deviceid: "Android 12.0",
+					latitude: "45.5",
+					longitude: "-122.8",
+					commenttext: "...",
+					username: "baduser007"
+				  }
+	. Mitigation Measures:
+		. Never leave sensitive data filtration tasks to the front-end developer. 
+		. Ensure periodic review of the response from the API to guarantee it returns only legitimate data and checks if it poses any security issue. 
+		. Avoid using generic methods such as to_string() and to_json(). 
+		. Use API endpoint testing through various test cases and verify through automated and manual tests if the API leaks additional data.
+
+Vuln IV - Lack of Resource & Rate Limiting:
+	. How Does it Happen?
+		. Rate Limiting: limiting how frequently a client can send requests
+		. Lack of resource & rate limiting in APIs refers to APIs that don't enforce any restriction on the frequency of client-requested resources or file size
+		. This degrades API server performance and leads to the DoS (denial of service)
+		. Rate limiting can also be carried out at the network level through something like a firewall
+	. Likely Impact:
+		. A user (usually an intruder) is able to upload several GB files simultaneously or make any number of requests per second
+		. These attacks ensure the non-availability of service for an organization
+	. Practical Example:
+		. Assume an endpoint (/apirule4/sendOTP_v) that will send a 4-digit numeric code to the user's email address used for account recovery
+		. This endpoint allows an attacker to brute-force the endpoint and spam as many emails as they want due to the lack of rate limiting in place
+			. Request:
+				. POST http://localhost:80/MHT/apirule4/SendOTP_v
+				. Headers:
+					. Content-Type: "application/x-www-form-urlencoded"
+				. Request Body:
+					. email="test@gmail.com"
+			. Response:
+				. 200 OK
+				. JSON Body:
+					. success: "true",
+					  msg: "4 Digit Code Sent to {email}"
+	. Mitigation Measures:
+		. Ensure using a captcha to avoid requests from automated scripts and bots
+		. Ensure implementation of a limit for how often a client can call an API within a specified time and notify instantly when the limit is exceeded 
+		. Ensure to define the maximum data size on all parameters and payloads
+
+Vuln V - Broken Function Level Authorization:
+	. How Does it Happen?
+		. Broken Function Level Authorization happens when a low privilege user bypasses system checks and gets access to confidential data by impersonating a high privileged user
+		. Consider a scenario of complex access control policies with various hierarchies, roles, and groups and a vague separation between regular and administrative functions leading to severe authorization flaws
+	. Likely Impact:
+		. The attack primarily targets the authorization and non-repudiation principles of security. Broken Function Level Authorization can lead an intruder to impersonate an authorized user and let the malicious actor get administrative rights to perform sensitive tasks
+	. Practical Example:
+		. Assume an endpoint (/apirule5/users_v) developed to fetch data of all employees from the database
+		. Authentication is handled by using two distinct headers, "isAdmin" and "Authorization-Token"
+		. We have found the authorization token for a low privilege user (alice)
+		. We can use this token in combination with "isAdmin: 1" to see what the response would look like from the admin's perspective
+		. Request: GET http://localhost:80/MHT/apirule5/users_v
+			. Headers:
+				. Authorization: "HAIgdAf..."
+				. isAdmin: "1"
+			. Request Body:
+		. Response:
+			. 200 OK
+			. JSON Body:
+				. {
+					id: "1",
+					username: "Admin User",
+					Role: "Admin",
+					...
+				  }
+				  {
+					id: "2",
+					username: "alice",
+					...
+				  }
+				  ...
+	. Mitigation Measures:
+		. Don't send an "isAdmin" value through the hidden fields in form requests
+		. Ensure proper design and testing of all authorization systems and deny all access by default. 
+		. Ensure that the operations are only allowed to the users belonging to the authorized group. 
+		. Make sure to review API endpoints against flaws regarding functional level authorization and keep in mind the apps and group hierarchy's business logic. 
